@@ -3,11 +3,42 @@
            https://api.github.com/users/<your name>
 */
 
-const entryPoint = document.querySelector(".cards");
+// const followersArray = [];
+
+// my card
+const cardContainer = document.querySelector(".cards");
 axios.get("https://api.github.com/users/skyesaj").then(response => {
   console.log(response.data);
-  entryPoint.appendChild(createCard(response));
+  cardContainer.appendChild(createCard(response));
 });
+
+// const followersArray = [];
+axios.get("https://api.github.com/users/skyesaj").then(res => {
+  createCard(res);
+  axios.get("https://api.github.com/users/skyesaj/followers").then(response => {
+    response.data.forEach(follower => {
+      axios
+        .get(`https://api.github.com/users/${follower.login}`)
+        .then(followerRes =>
+          cardContainer.appendChild(createCard(followerRes))
+        );
+    });
+  });
+});
+// axios.get("https://api.github.com/users/skyesaj").then(response => {
+//   // console.log(respnse.data);
+//   cardss.appendChild(createCard(response));
+
+//   axios.get("https://api.github.com/users/skyesaj/followers").then(response => {
+//     response.data.forEach(follower => {
+//       axios.get(`https://api.github.com/users/${follower.login}`);
+//       .then(followerss => cardss.appendChild(createCard(followerss)));
+
+//     });
+//   };
+// };
+// .catch(error => console.log(error.response.data.message));
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
