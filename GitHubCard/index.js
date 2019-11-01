@@ -3,6 +3,11 @@
            https://api.github.com/users/<your name>
 */
 
+const entryPoint = document.querySelector(".cards");
+axios.get("https://api.github.com/users/skyesaj").then(response => {
+  console.log(response.data);
+  entryPoint.appendChild(createCard(response));
+});
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -53,3 +58,50 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+// Elements
+
+function createCard(object) {
+  const card = document.createElement("div");
+  const cardPic = document.createElement("img");
+  const cardDiv = document.createElement("div");
+  const cardTitle = document.createElement("h3");
+  const oneCard = document.createElement("p");
+  const twoCard = document.createElement("p");
+  const thirdCard = document.createElement("p");
+  const fourCard = document.createElement("p");
+  const fiveCard = document.createElement("p");
+  const sixCard = document.createElement("p");
+  const cardAdd = document.createElement("a");
+
+  // class
+
+  card.appendChild(cardPic);
+  card.appendChild(cardDiv);
+  cardDiv.appendChild(oneCard);
+  cardDiv.appendChild(twoCard);
+  cardDiv.appendChild(thirdCard);
+  cardDiv.appendChild(fourCard);
+  cardDiv.appendChild(fiveCard);
+  cardDiv.appendChild(sixCard);
+  thirdCard.appendChild(cardAdd);
+
+  // set names
+
+  card.classList.add("card");
+  cardDiv.classList.add("card-info");
+  cardTitle.classList.add("name");
+  oneCard.classList.add("username");
+
+  cardPic.src = object.data.avatar_url;
+  cardTitle.textContent = object.data.login;
+  oneCard.textContent = object.data.name;
+  twoCard.textContent = object.data.location;
+  cardAdd.textContent = object.data.html_url;
+  cardAdd.setAttribute("href", object.data.html_url);
+  fourCard.textContent = object.data.followers;
+  fiveCard.textContent = object.data.following;
+  sixCard.textContent = object.data.bio;
+
+  return card;
+}
